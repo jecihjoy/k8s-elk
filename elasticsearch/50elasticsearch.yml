@@ -73,13 +73,15 @@ spec:
         configMap:
           name: elasticsearch-config
       # - name: data
-      #   emptyDir: {}
+      #   emptyDir: {}\
+      nodeSelector:
+        role: es-master
   volumeClaimTemplates:
   - metadata:
       name: data
     spec:
       accessModes: [ "ReadWriteOnce" ]
-      storageClassName: elasticsearch
+      storageClassName: nfs-client
       resources:
         requests:
-          storage: 20Gi
+          storage: 250Gi
