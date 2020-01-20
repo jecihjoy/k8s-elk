@@ -21,7 +21,8 @@ spec:
       terminationGracePeriodSeconds: 30
       containers:
       - name: kibana
-        image: docker.elastic.co/kibana/kibana:6.3.2
+        image: docker.elastic.co/kibana/kibana:7.0.0
+        imagePullPolicy: Always
         ports:
         - containerPort: 5601
         resources:

@@ -7,5 +7,6 @@ data:
   logstash.yml: |-
     # https://github.com/elastic/logstash-docker/blob/master/build/logstash/config/logstash-full.yml
     http.host: "0.0.0.0"
-    xpack.monitoring.elasticsearch.url: http://elasticsearch:9200
+    xpack.monitoring.elasticsearch.hosts: [http://elasticsearch:9200]
     xpack.monitoring.enabled: true
+    pipeline.workers: 7
