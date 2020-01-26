@@ -29,25 +29,13 @@ spec:
           - name: LS_JAVA_OPTS
             value: -Xmx8g -Xms1g
           - name: MYSQL_HOST
-            valueFrom:
-                secretKeyRef:
-                  name: ampath-elk-secrets
-                  key: MYSQL_HOST
+            value: x
           - name: MYSQL_PORT
-            valueFrom:
-                secretKeyRef:
-                  name: ampath-elk-secrets
-                  key: MYSQL_PORT
+            value: x
           - name: MYSQL_USER
-            valueFrom:
-                secretKeyRef:
-                  name: ampath-elk-secrets
-                  key: MYSQL_USER
+            value: x
           - name: MYSQL_PASSWORD
-            valueFrom:
-                secretKeyRef:
-                  name: ampath-elk-secrets
-                  key: MYSQL_PASSWORD
+            value: x
         ports:
         - containerPort: 9600
           name: monitoring
@@ -64,14 +52,14 @@ spec:
             memory: 1Gi
         volumeMounts:
         - name: config
-          mountPath: /usr/share/logstash/config/logstash.yml
+          mountPath: /tmp/volumes/logstash/config/logstash.yml
           subPath: logstash.yml
         - name: logstash-pipeline
-          mountPath: /usr/share/logstash/pipeline
+          mountPath: /tmp/volumes/logstash/pipeline
         - name: logstash-lastrun-data
           mountPath: /tmp/last_run
         - name: jdbc-driver
-          mountPath: /usr/share/logstash/jdbc_driver
+          mountPath: /tmp/volumes/logstash/jdbc_driver
       volumes:
       - name: config
         configMap:

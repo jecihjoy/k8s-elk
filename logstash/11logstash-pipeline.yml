@@ -7,7 +7,7 @@ data:
   hiv_monthly_report_frozen_2.conf: |-
         input {
           jdbc {
-                jdbc_driver_library => "/usr/share/logstash/jdbc_driver/mysql-connector-java-5.1.48-bin.jar"
+                jdbc_driver_library => "/tmp/volumes/logstash/jdbc_driver/mysql-connector-java-5.1.48-bin.jar"
                 jdbc_driver_class => "com.mysql.jdbc.Driver"
                 jdbc_connection_string => "jdbc:mysql://${MYSQL_HOST}:${MYSQL_PORT}/etl?zeroDateTimeBehavior=convertToNull"
                 jdbc_validate_connection => true
@@ -37,7 +37,7 @@ data:
   flat_encounter.conf: |-
           input {
             jdbc {
-                  jdbc_driver_library => "/usr/share/logstash/config/mysql-connector-java-5.1.48-bin.jar"
+                  jdbc_driver_library => "/tmp/volumes/ogstash/config/mysql-connector-java-5.1.48-bin.jar"
                   jdbc_driver_class => "com.mysql.jdbc.Driver"
                   jdbc_connection_string => "jdbc:mysql://${MYSQL_HOST}:${MYSQL_PORT}/amrs?autoReconnect=true"
                   jdbc_validate_connection => true
@@ -84,7 +84,7 @@ data:
   hiv_summary.conf: |-
     input {
       jdbc {
-        jdbc_driver_library => "/usr/share/logstash/config/mysql-connector-java-5.1.48-bin.jar"
+        jdbc_driver_library => "/tmp/volumes/logstash/config/mysql-connector-java-5.1.48-bin.jar"
         jdbc_driver_class => "com.mysql.jdbc.Driver"
         jdbc_connection_string => "jdbc:mysql://${MYSQL_HOST}:${MYSQL_PORT}/etl?autoReconnect=true&zeroDateTimeBehavior=convertToNull"
         jdbc_validate_connection => true
@@ -114,7 +114,7 @@ data:
   surge_weekly.conf: |-
     input {
       jdbc {
-        jdbc_driver_library => "/usr/share/logstash/config/mysql-connector-java-5.1.48-bin.jar"
+        jdbc_driver_library => "/tmp/volumes/logstash/config/mysql-connector-java-5.1.48-bin.jar"
         jdbc_driver_class => "com.mysql.jdbc.Driver"
         jdbc_connection_string => "jdbc:mysql://${MYSQL_HOST}:${MYSQL_PORT}/etl?autoReconnect=true&zeroDateTimeBehavior=convertToNull"
         jdbc_validate_connection => true

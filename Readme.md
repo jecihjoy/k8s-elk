@@ -15,3 +15,5 @@ The load-balancer would expose the default port
 Elasticsearch:9200
 Kibana:5601
 ```
+
+kubectl create secret generic mysql-wp-secret --from-literal=db-pass=test123

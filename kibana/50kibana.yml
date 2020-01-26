@@ -32,7 +32,7 @@ spec:
             cpu:    0.1
         volumeMounts:
         - name: config
-          mountPath: /usr/share/kibana/config/kibana.yml
+          mountPath: /tmp/volumes/kibana/config/kibana.yml
           subPath: kibana.yml
       volumes:
       - name: config

@@ -35,7 +35,7 @@ spec:
             memory: 100Mi
         volumeMounts:
         - name: config
-          mountPath: /usr/share/filebeat/filebeat.yml
+          mountPath: /tmp/volumes/filebeat/filebeat.yml
           subPath: filebeat.yml
         - name: containers
           mountPath: /var/lib/docker/containers
