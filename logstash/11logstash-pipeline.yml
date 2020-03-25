@@ -9,7 +9,7 @@ data:
           jdbc {
                 jdbc_driver_library => "/usr/share/logstash/jdbc_driver/mysql-connector-java-5.1.48-bin.jar"
                 jdbc_driver_class => "com.mysql.jdbc.Driver"
-                jdbc_connection_string => "jdbc:mysql://${MYSQL_HOST}:${MYSQL_PORT}/etl?zeroDateTimeBehavior=convertToNull"
+                jdbc_connection_string => "jdbc:mysql://${MYSQL_HOST}:${MYSQL_PORT}/etl?autoReconnect=true&zeroDateTimeBehavior=convertToNull"
                 jdbc_validate_connection => true
                 jdbc_user => "${MYSQL_USER}"
                 jdbc_password => "${MYSQL_PASSWORD}"
@@ -75,8 +75,6 @@ data:
             elasticsearch {
               hosts => "http://elasticsearch.elk:9200"
               index => "jdbc_flat_encounter_v1_1"
-              template => "/tmp/last_run/template.json"
-              manage_template => true
               document_id => "%{encounter_id}"
             }
           }
@@ -107,6 +105,36 @@ data:
           elasticsearch {
             hosts => "http://elasticsearch.elk:9200"
             index => "jdbc_flat_hiv_summary_v15b"
+            document_id => "%{encounter_id}"
+          }
+        }
+      }
+  flat_vitals.conf: |-
+    input {
+      jdbc {
+        jdbc_driver_library => "/usr/share/logstash/config/mysql-connector-java-5.1.48-bin.jar"
+        jdbc_driver_class => "com.mysql.jdbc.Driver"
+        jdbc_connection_string => "jdbc:mysql://${MYSQL_HOST}:${MYSQL_PORT}/etl?autoReconnect=true&zeroDateTimeBehavior=convertToNull"
+        jdbc_validate_connection => true
+        jdbc_user => "${MYSQL_USER}"
+        jdbc_password => "${MYSQL_PASSWORD}"
+        jdbc_paging_enabled => true
+        jdbc_page_size => 500000
+        schedule => "* * * * *"
+        statement => "SELECT t2.patient_id, gender, birthdate, TIMESTAMPDIFF(YEAR,birthdate,t2.encounter_datetime) AS age, t2.encounter_id, TIME(t2.encounter_datetime) AS encounter_time, t3.name AS encounter_type_name, weight, height, temp, oxygen_sat, systolic_bp, diastolic_bp, pulse, bsa, ecog, inr, lcc, rcc, t2.date_created FROM etl.flat_vitals t1 JOIN amrs.encounter t2 ON t2.encounter_id = t1.encounter_id JOIN amrs.encounter_type t3 ON t2.encounter_type = t3.encounter_type_id JOIN  amrs.person t5 ON t5.person_id = t1.person_id where t2.date_created > :sql_last_value"
+        last_run_metadata_path => "/tmp/last_run/.jdbc_flat_vitals_last_run"
+        use_column_value => true
+        tracking_column => date_created
+        tracking_column_type => "timestamp"
+        tags => "flat_vitals"
+        codec => json
+        }
+      }
+      output {
+        if "flat_vitals" in [tags]{
+          elasticsearch {
+            hosts => "http://elasticsearch.elk:9200"
+            index => "jdbc_flat_hiv_vitals"
             document_id => "%{encounter_id}"
           }
         }

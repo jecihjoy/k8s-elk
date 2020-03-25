@@ -15,3 +15,8 @@ The load-balancer would expose the default port
 Elasticsearch:9200
 Kibana:5601
 ```
+# Logstash 
+`kubectl apply -f ./logstash/`
+
+Copy mysql connector to volume
+`kubectl cp --namespace=elk ./logstash/jdbc_driver/mysql-connector-java-5.1.48-bin.jar logstash-0:/usr/share/logstash/jdbc_driver/`
